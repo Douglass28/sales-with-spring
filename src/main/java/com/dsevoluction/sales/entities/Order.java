@@ -11,19 +11,23 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Cliente cliente;
     private Date date;
     private Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
     public Order(){
 
     }
 
-    public Order(Integer id, Cliente cliente, Date date, Double price) {
+    public Order(Integer id, Date date, Double price, Cliente cliente) {
         this.id = id;
-        this.cliente = cliente;
         this.date = date;
         this.price = price;
+        this.cliente = cliente;
+
     }
 
     public Integer getId() {
@@ -32,14 +36,6 @@ public class Order implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public Date getDate() {
@@ -56,6 +52,14 @@ public class Order implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override

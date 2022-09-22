@@ -2,7 +2,9 @@ package com.dsevoluction.sales.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_cliente")
@@ -12,6 +14,9 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<Order> orders = new HashSet<>();
 
     public Cliente(){
 
@@ -36,6 +41,14 @@ public class Cliente implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
