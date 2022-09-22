@@ -3,7 +3,9 @@ package com.dsevoluction.sales.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -17,6 +19,9 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "order")
+    private Set<ItemOrder> itemOrder = new HashSet<>();
 
     public Order(){
 
@@ -60,6 +65,14 @@ public class Order implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Set<ItemOrder> getItemOrder() {
+        return itemOrder;
+    }
+
+    public void setItemOrder(Set<ItemOrder> itemOrder) {
+        this.itemOrder = itemOrder;
     }
 
     @Override
