@@ -15,7 +15,7 @@ public class Cliente implements Serializable {
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
     public Cliente(){
