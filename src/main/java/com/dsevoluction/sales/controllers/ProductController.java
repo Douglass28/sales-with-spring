@@ -40,12 +40,12 @@ public class ProductController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Product> upDate(@PathVariable Integer id, @RequestBody Product product){
         product = service.upDate(id, product);
-        return ResponseEntity.ok().body(product);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(product);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
