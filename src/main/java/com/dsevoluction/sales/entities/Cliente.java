@@ -1,5 +1,7 @@
 package com.dsevoluction.sales.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -15,6 +17,7 @@ public class Cliente implements Serializable {
     private Integer id;
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 

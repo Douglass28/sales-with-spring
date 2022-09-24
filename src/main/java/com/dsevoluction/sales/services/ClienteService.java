@@ -21,7 +21,7 @@ public class ClienteService {
 
     public Cliente findById(Integer id){
         Optional<Cliente> obj = repository.findById(id);
-        return obj.orElseThrow(RuntimeException::new);
+        return obj.orElseThrow(RuntimeException::new); //suply
     }
 
     public Cliente insert(Cliente cliente){
