@@ -7,10 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -23,23 +20,23 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date date;
-    private Double price;
+    private Double total;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @OneToMany(mappedBy = "order")
-    private Set<ItemOrder> itemOrder = new HashSet<>();
+    private List<ItemOrder> itemOrder = new ArrayList<>();
 
     public Order() {
 
     }
 
-    public Order(Integer id, Date date, Double price, Cliente cliente) {
+    public Order(Integer id, Date date, Double total, Cliente cliente) {
         this.id = id;
         this.date = date;
-        this.price = price;
+        this.total = total;
         this.cliente = cliente;
     }
 }
