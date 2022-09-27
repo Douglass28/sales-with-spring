@@ -1,5 +1,6 @@
 package com.dsevoluction.sales.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,6 @@ public class Order implements Serializable {
     private Integer id;
     private Date date;
     private Double total;
-
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

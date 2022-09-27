@@ -22,6 +22,8 @@ public class Cliente implements Serializable {
     private Integer id;
     private String name;
 
+    private String cpf;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
@@ -29,8 +31,9 @@ public class Cliente implements Serializable {
     public Cliente(){
     }
 
-    public Cliente(Integer id, String name){
+    public Cliente(Integer id, String name, String cpf){
         this.id = id;
         this.name = name;
+        this.cpf = cpf;
     }
 }

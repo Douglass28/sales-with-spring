@@ -13,10 +13,10 @@ import com.dsevoluction.sales.repositories.ProductRepository;
 import com.dsevoluction.sales.services.exceptions.RegraNegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,7 +62,7 @@ public class OrderService {
             Integer idProduct = dto.getProduto();
 
             Product product = productRepository.findById(idProduct).orElseThrow(()
-                    -> new RegraNegocioException("codigo do produto não exite" + idProduct));
+                    -> new RegraNegocioException("codigo do produto não exite : " + idProduct));
 
             ItemOrder itemOrder = new ItemOrder();
             itemOrder.setQuantity(dto.getQuantity());
@@ -70,5 +70,10 @@ public class OrderService {
             itemOrder.setProduct(product);
             return itemOrder;
         }).collect(Collectors.toList());
+    }
+
+    public Order informationOrder(Integer id){
+        Optional<Order> order = orderRepository.findById(id);
+        return order.orElseThrow(()-> new RegraNegocioException("id não existe " +id));
     }
 }

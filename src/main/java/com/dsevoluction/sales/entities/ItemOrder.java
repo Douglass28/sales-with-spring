@@ -1,5 +1,6 @@
 package com.dsevoluction.sales.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,9 +20,12 @@ public class ItemOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
