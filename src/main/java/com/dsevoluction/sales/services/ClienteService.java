@@ -2,6 +2,7 @@ package com.dsevoluction.sales.services;
 
 import com.dsevoluction.sales.entities.Cliente;
 import com.dsevoluction.sales.repositories.ClienteRepository;
+import com.dsevoluction.sales.services.exceptions.RegraNegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,8 @@ public class ClienteService {
         return obj.orElseThrow(RuntimeException::new); //suply
     }
 
-    public Cliente insert(Cliente cliente){
-        return repository.save(cliente);
+    public Cliente insert(Cliente cliente) {
+            return repository.save(cliente);
     }
 
     public void delete(Integer id){

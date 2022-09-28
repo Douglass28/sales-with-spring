@@ -2,8 +2,10 @@ package com.dsevoluction.sales.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,8 +22,11 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotEmpty(message = "o nome deve ser informado")
     private String name;
 
+    @NotEmpty(message = "o cpf deve ser informado")
+    @CPF(message = "o CPF deve ser valido")
     private String cpf;
 
     @JsonIgnore

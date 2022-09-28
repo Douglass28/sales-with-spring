@@ -33,9 +33,9 @@ public class Instantiations implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Cliente cli1 = new Cliente(null, "douglas", "152365.895.56");
-        Cliente cli2 = new Cliente(null, "Bruno", "10129658.255.30");
-        Cliente cli3 = new Cliente(null, "Goiaba", "89566.963.65");
+        Cliente cli1 = new Cliente(null, "douglas", "27757201020");
+        Cliente cli2 = new Cliente(null, "Bruno", "66842889022");
+        Cliente cli3 = new Cliente(null, "Goiaba", "73806055009");
 
         clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 
