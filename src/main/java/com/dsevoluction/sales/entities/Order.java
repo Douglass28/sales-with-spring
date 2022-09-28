@@ -1,5 +1,6 @@
 package com.dsevoluction.sales.entities;
 
+import com.dsevoluction.sales.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,14 +30,19 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order")
     private List<ItemOrder> itemOrder = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     public Order() {
 
     }
 
-    public Order(Integer id, Date date, Double total, Cliente cliente) {
+    public Order(Integer id, Date date, Double total, Cliente cliente, OrderStatus status) {
         this.id = id;
         this.date = date;
         this.total = total;
         this.cliente = cliente;
+        this.status = status;
     }
+
 }
