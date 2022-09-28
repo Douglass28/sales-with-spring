@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -32,13 +33,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> inser(@RequestBody Product product) {
+    public ResponseEntity<Product> inser(@RequestBody @Valid Product product) {
         service.insert(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Product> upDate(@PathVariable Integer id, @RequestBody Product product){
+    public ResponseEntity<Product> upDate(@PathVariable Integer id, @RequestBody @Valid Product product){
         product = service.upDate(id, product);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(product);
     }

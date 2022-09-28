@@ -39,12 +39,5 @@ public class Instantiations implements CommandLineRunner {
 
         clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 
-
-        Product p1 = new Product(null, "auto-ajuda", 100.0);
-        Product p2 = new Product(null, "iphone 14", 1000.0);
-        Product p3 = new Product(null, "apple watch", 2500.0);
-
-        productRepository.saveAll(Arrays.asList(p1, p2, p3));
-
     }
 }
