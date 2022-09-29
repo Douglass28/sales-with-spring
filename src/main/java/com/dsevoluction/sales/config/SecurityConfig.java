@@ -24,14 +24,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
                .withUser("douglas")
                .password(passwordEncoder().encode("123"))
-               .roles("USER");
+               .roles("USER", "ADMIM");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/clientes/**")
-                .authenticated()
+                .authorizeRequests()
+                .antMatchers("/clientes/**")
+                .hasRole("USER")
+                .antMatchers("/products/**")
+                .hasAnyRole( "USER","ADMIN")
+                .antMatchers("/orderes/**")
+                .hasRole("USER")
                 .and()
                 .formLogin();
     }
