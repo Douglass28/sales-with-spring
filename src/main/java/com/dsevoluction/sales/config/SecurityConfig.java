@@ -1,5 +1,7 @@
 package com.dsevoluction.sales.config;
 
+import com.dsevoluction.sales.services.impl.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +16,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // $2a$12$RhNFLGPVxpGEKadrRkg9dednVNx1xZJxKzi8ST/ZHNuQy6rfYMRvi
     // $2a$12$jXDPAhQgQcT6eSJTkYz66ug532F99hW1blhgA6lOHmXXw82lokdvm
 
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //gera diferentes hashs para a mesma senha e de forma automatica aumentando a segurança do app.
@@ -21,10 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
-               .withUser("douglas")
-               .password(passwordEncoder().encode("123"))
-               .roles("USER", "ADMIM");
+       auth.userDetailsService(usuarioService)
+               .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -33,9 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/clientes/**")
                 .hasRole("USER")
-                .antMatchers("/products/**")
-                .hasAnyRole( "USER","ADMIN")
-                .antMatchers("/orderes/**")
+                .antMatchers("products/**")
+                .hasAnyRole("USER", "ADMIN")
+                .antMatchers("/orders/**")
                 .hasRole("USER")
                 .and()
                 .httpBasic();
