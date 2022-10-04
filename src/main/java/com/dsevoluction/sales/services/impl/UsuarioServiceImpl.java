@@ -28,7 +28,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
                 .builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRoles())
+                .admin(user.isAdmin())
                 .build();
     }
 }

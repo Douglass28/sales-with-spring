@@ -3,6 +3,7 @@ package com.dsevoluction.sales.config;
 import com.dsevoluction.sales.services.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,12 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/clientes/**")
-                .hasRole("USER")
+                    .hasRole("USER")
                 .antMatchers("products/**")
-                .hasAnyRole("USER", "ADMIN")
+                    .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/orders/**")
-                .hasRole("USER")
+                    .hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/users/**")
+                    .permitAll()
                 .and()
-                .httpBasic();
+                    .httpBasic();
     }
 }
