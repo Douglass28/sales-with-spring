@@ -1,6 +1,8 @@
 package com.dsevoluction.sales;
 
 import com.dsevoluction.sales.entities.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,11 +38,39 @@ public class JwtService {
                 .compact();
     }
 
+    private Claims obterClaims(String token) throws ExpiredJwtException{
+        return Jwts
+                .parser()
+                .setSigningKey(chaveAssinatura)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+    public boolean tokenValido(String token){
+        try {
+            Claims claims = obterClaims(token);
+            Date dataExpiracao = claims.getExpiration();
+            LocalDateTime data = dataExpiracao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            return !LocalDateTime.now().isAfter(data);
+        }catch (Exception e ){
+            return  false;
+        }
+    }
+
+    public String obterLoginUser(String token) throws ExpiredJwtException{
+        return (String) obterClaims(token).getSubject();
+     }
+
+
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SalesApplication.class);
         JwtService service = context.getBean(JwtService.class);
         User user = User.builder().username("douglas").build();
         String token = service.geraToken(user);
         System.out.println(token);
+
+        boolean isTokenValido = service.tokenValido(token);
+        System.out.println("token está valido ? " + isTokenValido);
+
+        System.out.println(service.obterLoginUser(token));
     }
 }
