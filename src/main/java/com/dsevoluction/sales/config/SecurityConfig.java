@@ -1,5 +1,7 @@
 package com.dsevoluction.sales.config;
 
+import com.dsevoluction.sales.security.Jwt.JwtAuthFilter;
+import com.dsevoluction.sales.security.Jwt.JwtService;
 import com.dsevoluction.sales.services.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,21 +10,30 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // $2a$12$RhNFLGPVxpGEKadrRkg9dednVNx1xZJxKzi8ST/ZHNuQy6rfYMRvi
-    // $2a$12$jXDPAhQgQcT6eSJTkYz66ug532F99hW1blhgA6lOHmXXw82lokdvm
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); //gera diferentes hashs para a mesma senha e de forma automatica aumentando a segurança do app.
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public OncePerRequestFilter jwtFilter(){
+        return new JwtAuthFilter(jwtService, usuarioService);
     }
 
     @Override
@@ -43,7 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasRole("USER")
                 .antMatchers(HttpMethod.POST,"/users/**")
                     .permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .httpBasic();
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class); 
     }
 }
