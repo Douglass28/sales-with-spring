@@ -1,5 +1,6 @@
-package com.dsevoluction.sales;
+package com.dsevoluction.sales.security.Jwt;
 
+import com.dsevoluction.sales.SalesApplication;
 import com.dsevoluction.sales.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
